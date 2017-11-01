@@ -204,6 +204,28 @@ export function classifyXORData(numSamples: number, noise: number):
   return points;
 }
 
+// prepare user data for use 
+export function classifyUserData(numSamples: number, noise: number):
+Example2D[] {
+let points: Example2D[] = [];
+let n = numSamples / 2;
+
+function genUserData(deltaT: number, label: number) {
+for (let i = 0; i < n; i++) {
+  let r = i / n * 5;
+  let t = 1.75 * i / n * 2 * Math.PI + deltaT;
+  let x = r * Math.sin(t) + randUniform(-1, 1) * noise;
+  let y = r * Math.cos(t) + randUniform(-1, 1) * noise;
+  points.push({x, y, label});
+}
+}
+
+genUserData(0, 1); // Positive examples.
+genUserData(Math.PI, -1); // Negative examples.
+return points;
+}
+
+
 /**
  * Returns a sample from a uniform [a, b] distribution.
  * Uses the seedrandom library as the random generator.
