@@ -209,8 +209,6 @@ function makeGUI() {
   let dataThumbnails = d3.selectAll("canvas[data-dataset]");
   dataThumbnails.on("click", function() {
     let newDataset = datasets[this.dataset.dataset];
-    console.log(this.dataset.dataset)
-    console.log(newDataset);
     if (newDataset === state.dataset) {
       return; // No-op.
     }
@@ -1112,13 +1110,11 @@ let userUploadedData: Example2D[] = [];
 // file upload to populate user data
 d3.select('#filePath').on('change', function() {
   let file = this.files[0]
-  // console.log(file);
   if(file){
-    console.log('file exist')
+    console.log('file uploaded')
     processFile(file);
     //updateThumbnailAndData();
   }
-  
 });
 
 // process user uploaded file to Example2D
@@ -1136,7 +1132,6 @@ function processFile(file) {
       points.push({x, y, label});
    }
    userUploadedData = points;
-   console.log(userUploadedData);
   };
   reader.readAsText(file);
 }
@@ -1167,7 +1162,7 @@ function updateData(firstTime = false) {
   let generator = state.problem === Problem.CLASSIFICATION ?
       state.dataset : state.regDataset;
   let data = userUploadedData;//generator(numSamples, state.noise / 100);
-  console.log(data);
+  // console.log(data);
   // Shuffle the data in-place.
   shuffle(data);
   // Split into train and test data.
