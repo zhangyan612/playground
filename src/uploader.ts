@@ -11,22 +11,23 @@
 // }
 
 // controller class:
-uploadFile(): void {
-    var filePathInput: any = $("#filePath");
-    if (filePathInput[0].files) {
-        var file: any = filePathInput[0].files[0];
-        var resource: any = this.service.uploadFile();
-        resource.save(file, (result: any) => {
-            if (!result || !result.success) {
-                alert("error");
-            } else {
-                alert("ok");
-            }
-        });
-    }
-}
+// uploadFile(): void {
+//     var filePathInput: any = $("#filePath");
+//     if (filePathInput[0].files) {
+//         var file: any = filePathInput[0].files[0];
+//         var resource: any = this.service.uploadFile();
+//         resource.save(file, (result: any) => {
+//             if (!result || !result.success) {
+//                 alert("error");
+//             } else {
+//                 alert("ok");
+//             }
+//         });
+//     }
+// }
 
 // service class:
-uploadFile(): ng.resource.IResourceClass<IMyResource> {
-    return this.$resource("/MyController/UploadImage", null, { method: "POST" });
-}
+// uploadFile(): ng.resource.IResourceClass<IMyResource> {
+//     return this.$resource("/MyController/UploadImage", null, { method: "POST" });
+// }
+

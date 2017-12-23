@@ -163,6 +163,9 @@ limitations under the License.
           <div class="dataset" title="Spiral">
             <canvas class="data-thumbnail" data-dataset="spiral"></canvas>
           </div>
+          <div class="dataset" title="user">
+            <canvas class="data-thumbnail" data-dataset="user"></canvas>
+          </div>
           <div class="dataset" title="Plane">
             <canvas class="data-thumbnail" data-regDataset="reg-plane"></canvas>
           </div>
@@ -170,8 +173,6 @@ limitations under the License.
             <canvas class="data-thumbnail" data-regDataset="reg-gauss"></canvas>
           </div>
         </div>
-        <p>Add your own data</p>
-        <input id="filePath" name="filePath" type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
       </div>
       <div>
         <div class="ui-percTrainData">
@@ -195,6 +196,13 @@ limitations under the License.
           <button class="basic-button" id="data-regen-button" title="Regenerate data">
             Regenerate
           </button>
+          <br>
+          <p>Upload your data</p>
+          <input id="filePath" name="filePath" type="file" accept=".txt">  
+          <button class="basic-button" style="margin-top:0px;" id="data-upload" title="upload data" type="file">
+            Upload <!--accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" -->
+          </button>
+
       </div>
     </div>
 
