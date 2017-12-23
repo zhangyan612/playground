@@ -220,9 +220,13 @@ export function classifyUserData(numSamples: number, noise: number):
       points.push({x, y, label});
     }
   }
-  function getUserData(file: string){
-
-  }
+  // function drawTestData(file: string){
+  //   for (let i = 0; i < numSamples / 2; i++) {
+  //     let x = normalRandom(cx, variance);
+  //     let y = normalRandom(cy, variance);
+  //     points.push({x, y, label});
+  //   }
+  // }
   // construct a line 
   // function genLine(x1: number, y1: number, x2: number, y2: number, label: number) {
   //   for (let i=x1; i<x2; i+=0.1 ){
