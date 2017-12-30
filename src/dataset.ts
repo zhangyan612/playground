@@ -204,6 +204,49 @@ export function classifyXORData(numSamples: number, noise: number):
   return points;
 }
 
+// prepare user data for use 
+export function classifyUserData(numSamples: number, noise: number):
+  Example2D[] {
+  let points: Example2D[] = [];
+  //let reader = new FileReader();
+  
+  let varianceScale = d3.scale.linear().domain([0, .5]).range([0.5, 4]);
+  let variance = varianceScale(noise);
+
+  function genGauss(cx: number, cy: number, label: number) {
+    for (let i = 0; i < numSamples / 2; i++) {
+      let x = normalRandom(cx, variance);
+      let y = normalRandom(cy, variance);
+      points.push({x, y, label});
+    }
+  }
+  // function drawTestData(file: string){
+  //   for (let i = 0; i < numSamples / 2; i++) {
+  //     let x = normalRandom(cx, variance);
+  //     let y = normalRandom(cy, variance);
+  //     points.push({x, y, label});
+  //   }
+  // }
+  // construct a line 
+  // function genLine(x1: number, y1: number, x2: number, y2: number, label: number) {
+  //   for (let i=x1; i<x2; i+=0.1 ){
+  //   }
+  //   for (let i = 0; i < 3; i++) {
+  //     let x = normalRandom(x1, variance);
+  //     let y = normalRandom(y1, variance);
+  //     points.push({x, y, label});
+  //   }
+  // }
+
+  genGauss(3, 2, 1); // Gaussian with positive examples.
+  genGauss(2, 1, 0.5);
+  genGauss(-4, -2, -1); // Gaussian with negative examples.
+  console.log(points);
+  return points;
+}
+
+
+
 /**
  * Returns a sample from a uniform [a, b] distribution.
  * Uses the seedrandom library as the random generator.

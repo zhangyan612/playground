@@ -27,6 +27,7 @@ import {
 } from "./state";
 import {Example2D, shuffle} from "./dataset";
 import {AppendingLineChart} from "./linechart";
+import { event } from "d3";
 
 let mainWidth;
 
@@ -1066,6 +1067,7 @@ function generateData(firstTime = false) {
   let generator = state.problem === Problem.CLASSIFICATION ?
       state.dataset : state.regDataset;
   let data = generator(numSamples, state.noise / 100);
+  console.log(data);
   // Shuffle the data in-place.
   shuffle(data);
   // Split into train and test data.
@@ -1101,6 +1103,81 @@ function simulationStarted() {
   });
   parametersChanged = false;
 }
+
+// user data upload
+let userUploadedData: Example2D[] = [];
+
+// file upload to populate user data
+d3.select('#filePath').on('change', function() {
+  let file = this.files[0]
+  if(file){
+    console.log('file uploaded')
+    processFile(file);
+    //updateThumbnailAndData();
+  }
+});
+
+// process user uploaded file to Example2D
+function processFile(file) {
+  let reader = new FileReader();
+  reader.onload = function(event) {
+    let data = event.target['result']
+    let textByLine = data.split("\n");
+    let points: Example2D[] = [];
+    for (let i = 1; i < textByLine.length; i++) {
+      var parts =textByLine[i].split(',');
+      let x = Number(parts[0])
+      let y = Number(parts[1])
+      let label = Number(parts[2])
+      points.push({x, y, label});
+   }
+   userUploadedData = points;
+  };
+  reader.readAsText(file);
+}
+
+// update thumbnails selection
+let dataThumbnails = d3.selectAll("canvas[data-dataset]");
+function updateThumbnailAndData() {
+    let newDataset = datasets['user'];
+    state.dataset =  newDataset;
+    dataThumbnails.classed("selected", false);
+    d3.select("[data-dataset=user]").classed("selected", true);
+    updateData();
+    parametersChanged = true;
+    reset();
+  };
+
+// update data
+function updateData(firstTime = false) {
+  if (!firstTime) {
+    // Change the seed.
+    state.seed = Math.random().toFixed(5);
+    state.serialize();
+    userHasInteracted();
+  }
+  Math.seedrandom(state.seed);
+  let numSamples = (state.problem === Problem.REGRESSION) ?
+      NUM_SAMPLES_REGRESS : NUM_SAMPLES_CLASSIFY;
+  let generator = state.problem === Problem.CLASSIFICATION ?
+      state.dataset : state.regDataset;
+  let data = userUploadedData;//generator(numSamples, state.noise / 100);
+  // console.log(data);
+  // Shuffle the data in-place.
+  shuffle(data);
+  // Split into train and test data.
+  let splitIndex = Math.floor(data.length * state.percTrainData / 100);
+  trainData = data.slice(0, splitIndex);
+  testData = data.slice(splitIndex);
+  heatMap.updatePoints(trainData);
+  heatMap.updateTestPoints(state.showTestData ? testData : []);
+}
+
+// click button to update uploaded data
+d3.select("#data-upload").on("click", () => {
+  updateThumbnailAndData();
+  //drawDatasetThumbnails();
+});
 
 drawDatasetThumbnails();
 initTutorial();
